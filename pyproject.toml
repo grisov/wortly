@@ -3,28 +3,28 @@ requires = ["setuptools~=80.9", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "addonTemplate"
+name = "wortly"
 dynamic = ["version"]
-description = "NVDA add-on template"
+description = "Learn German words with flashcards and spaced repetition."
 maintainers = [
-	{name = "NV Access", email = "info@nvaccess.org"},
+	{name = "Oleksandr Gryshchenko", email = "grisov.nvaccess@mailgw.com"},
 ]
+license = "GPL-2.0-or-later"
+license-files = ["COPYING.txt"]
 requires-python = ">=3.13,<3.14"
 classifiers = [
-	"Development Status :: 5 - Production/Stable",
+	"Development Status :: 2 - Pre-Alpha",
 	"Intended Audience :: End Users/Desktop",
-	"License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
 	"Operating System :: Microsoft :: Windows",
 	"Programming Language :: Python :: 3",
 	"Topic :: Accessibility",
 ]
 readme = "readme.md"
-license = {file = "COPYING.TXT"}
 # This package is not installed as a library; every dependency is tooling used to
 # build, translate, or lint the add-on. They are declared as PEP 735 dependency groups.
 dependencies = []
 [project.urls]
-Repository = "https://github.com/nvaccess/addonTemplate"
+Repository = "https://github.com/grisov/wortly"
 
 # PEP 735 dependency groups. `uv sync` installs the `dev` group by default, which
 # pulls in every tool needed to build, translate, and lint the add-on.
@@ -51,10 +51,17 @@ lint = [
 	"prek==0.4.8",
 	"pyright[nodejs]==1.1.407",
 ]
+# Packages bundled with NVDA and used by the add-on, only for type checking with pyright:
+# they are not included in the add-on. Windows only: the unit tests in CI run on Linux without them.
+nvda = [
+	"wxPython==4.2.4; sys_platform == 'win32'",
+	"configobj==5.0.9; sys_platform == 'win32'",
+]
 dev = [
 	{ include-group = "build" },
 	{ include-group = "l10n" },
 	{ include-group = "lint" },
+	{ include-group = "nvda" },
 ]
 
 [tool.ruff]
